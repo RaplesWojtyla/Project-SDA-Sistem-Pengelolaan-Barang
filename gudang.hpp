@@ -1,8 +1,8 @@
 /*
-    !! Created at 30/04/2005 -> Patra Rafles Wostyla Sinaga
+    !! CREATED AT 30/04/2024 -> Patra Rafles Wostyla Sinaga
 
     Nama file: gudang.hpp
-    File ini berfungsi untuk menyimpan metode yang perlukan untuk mengelola barang
+    Ini merupakan header file yang berfungsi untuk menyimpan metode yang perlukan untuk mengelola barang
 */
 
 #include "sort.hpp"

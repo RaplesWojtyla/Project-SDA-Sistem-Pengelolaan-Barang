@@ -1,3 +1,10 @@
+/*
+    !! Created at 30/04/2024 -> Patra Rafles Wostyla Sinaga
+
+    Nama file: main.cpp
+    File ini sebagai file utama yang akan dijalankan
+*/
+
 #include "gudang.hpp"
 
 

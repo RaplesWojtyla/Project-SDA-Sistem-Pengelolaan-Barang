@@ -1,8 +1,8 @@
 /*
     !! Created at 30/04/2005 -> Patra Rafles Wostyla Sinaga
 
-    Nama file: sort.hpp
-    File ini berfungsi untuk mendeklarasikan array yang menyimpan data barang
+    Nama file: dataBarang.hpp
+    Ini merupakan header file yang berfungsi untuk menyimpan data barang di dalam array 2d
 */
 #include <iostream>
 #include <string>
