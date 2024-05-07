@@ -1,8 +1,9 @@
 /*
-    !! Created at 30/04/2005 -> Patra Rafles Wostyla Sinaga
+    !!CREATED AT 02/05/2024 -> SYUJA AQILSYAH
+    !! UPDATED AT 07/05/2024 -> Patra Rafles Wostyla Sinaga
 
     Nama file: sort.hpp
-    File ini berfungsi untuk mengurutkan data barang
+    Ini merupakan header file yang berisi method untuk mengurutkan data barang
 */
 
 #include "dataBarang.hpp"
@@ -25,7 +26,7 @@ void Sort::ascSort()
         int pos = i;
 
         while (pos > 0 && dataBarang[pos][0] < dataBarang[pos - 1][0])
-            swapp(pos, pos--);
+            swapp(pos, pos - 1), --pos;
     }
 }
 
@@ -36,7 +37,7 @@ void Sort::descSort()
         int pos = i;
 
         while (pos > 0 && dataBarang[pos][0] > dataBarang[pos - 1][0])
-            swapp(pos, pos--);
+            swapp(pos, pos - 1), --pos;
     }
 }
 
@@ -47,7 +48,7 @@ void Sort::sortByExp()
         int pos = i;
 
         while (pos > 0 && dataBarang[pos][2] < dataBarang[pos - 1][2])
-            swapp(pos, pos--);
+            swapp(pos, pos - 1), --pos;
     }
 }
 
