@@ -17,9 +17,8 @@ class Gudang : public Sort
         void addItem();
         void updateItem();
         void deleteItem();
-        void searchItem();
+        int searchItem(string);
         string tolowerCase(string);
-        int bSearch(string);
         void display();
         ~Gudang(){};
 };
@@ -149,10 +148,19 @@ void Gudang::updateItem()
 
     char c;
     int day, month, year;
-    int idx;
+    string itemName;
 
-    cout << "\nMasukkan nomor barang: ";
-    cin >> idx;
+    cout << "\nMasukkan nama barang: ";
+    cin.ignore();
+    getline(cin, itemName);
+
+    int idx = searchItem(tolowerCase(itemName));
+
+    if (idx == -1)
+    {
+        cout << "Barang tersebut tidak ditemukan." << '\n';
+        return;
+    }
 
     do
     {
@@ -160,11 +168,11 @@ void Gudang::updateItem()
         fflush(stdin);
 
         cout << "Pilih nomor yang akan diupdate." << '\n';
-        cout << "\t1. Nama barang: " << dataBarang[idx - 1][0] << '\n';
-        cout << "\t2. Banyak barang: " << dataBarang[idx - 1][1] << '\n';
+        cout << "\t1. Nama barang: " << dataBarang[idx][0] << '\n';
+        cout << "\t2. Banyak barang: " << dataBarang[idx][1] << '\n';
 
         char buff[80];
-        time_t t = stol(dataBarang[idx - 1][2]);
+        time_t t = stol(dataBarang[idx][2]);
         tm *convert = localtime(&t);
         strftime(buff, 80, "%A, %d %B %Y", convert);
 
@@ -180,28 +188,28 @@ void Gudang::updateItem()
             case '1':
                 cout << "Nama barang: ";
                 cin.ignore();
-                getline(cin, dataBarang[idx - 1][0]);
+                getline(cin, dataBarang[idx][0]);
                 break;
             case '2':
                 cout << "Banyak barang (pcs): ";
-                cin >> dataBarang[idx - 1][1];
+                cin >> dataBarang[idx][1];
                 break;
             case '3':
-                cout << "Tanggal kadaluarsa: ";
+                cout << "Tanggal kadaluarsa (DD MM YYYY): ";
                 cin >> day >> month >> year;
 
                 exp.tm_mday = day;
                 exp.tm_mon = month - 1;
                 exp.tm_year = year - 1900;
-                dataBarang[idx - 1][2] = to_string(mktime(&exp));
+                dataBarang[idx][2] = to_string(mktime(&exp));
                 break;
             case '4':
                 cout << "\tNama barang: ";
                 cin.ignore();
-                getline(cin, dataBarang[idx - 1][0]);
+                getline(cin, dataBarang[idx][0]);
 
                 cout << "\tBanyak barang (pcs): ";
-                cin >> dataBarang[idx - 1][1];
+                cin >> dataBarang[idx][1];
 
                 cout << "\tMasukkan tanggal kadaluarsa (DD MM YYYY): ";
                 cin >> day >> month >> year;
@@ -209,7 +217,7 @@ void Gudang::updateItem()
                 exp.tm_mday = day;
                 exp.tm_mon = month - 1;
                 exp.tm_year = year - 1900;
-                dataBarang[idx - 1][2] = to_string(mktime(&exp));
+                dataBarang[idx][2] = to_string(mktime(&exp));
                 break;
             case 'q':
                 system("cls");
@@ -260,12 +268,21 @@ void Gudang::deleteItem()
     display();
 
     char c;
-    int idx;
+    string itemName;
 
-    cout << "\nMasukkan nomor barang yang akan dihapus: ";
-    cin >> idx;
+    cout << "\nMasukkan nama barang: ";
+    cin.ignore();
+    getline(cin, itemName);
 
-    print(idx - 1);
+    int idx = searchItem(tolowerCase(itemName));
+
+    if (idx == -1)
+    {
+        cout << "Barang tersebut tidak ditemukan." << '\n';
+        return;
+    }
+
+    print(idx);
 
     cout << "\nYakin akan menghapus barang tersebut?[y/n] ";
     cin >> c;
@@ -273,7 +290,7 @@ void Gudang::deleteItem()
     if (tolower(c) == 'y')
     {
         --n;
-        for (int i = idx - 1; i < n; ++i)
+        for (int i = idx; i < n; ++i)
         {
             dataBarang[i][0] = dataBarang[i + 1][0];
             dataBarang[i][1] = dataBarang[i + 1][1];
@@ -282,36 +299,7 @@ void Gudang::deleteItem()
     }
 }
 
-void Gudang::searchItem()
-{
-    string itemName;
-    cout << "Masukkan nama barang: ";
-    cin.ignore();
-    getline(cin, itemName);
-
-    int idx = bSearch(tolowerCase(itemName));
-
-    if (idx > -1) print(idx);
-    else cout << "Barang tersebut tidak ditemukan." << '\n';
-}
-
-void Gudang::display()
-{
-    system("cls");
-    cout << "\nDaftar Barang:\n";
-
-    for (int i = 0; i < n; ++i) print(i);
-}
-
-string Gudang::tolowerCase(string str)
-{
-    string ret = "";
-    for (int i = 0; i < str.length(); ++i) ret += tolower(str[i]);
-
-    return ret;
-}
-
-int Gudang::bSearch(string target)
+int Gudang::searchItem(string target)
 {
     ascSort();
     int l = 0, m, r = n - 1;
@@ -326,4 +314,20 @@ int Gudang::bSearch(string target)
     }
 
     return -1;
+}
+
+string Gudang::tolowerCase(string str)
+{
+    string ret = "";
+    for (int i = 0; i < str.length(); ++i) ret += tolower(str[i]);
+
+    return ret;
 }   
+
+void Gudang::display()
+{
+    system("cls");
+    cout << "\nDaftar Barang:\n";
+
+    for (int i = 0; i < n; ++i) print(i);
+}

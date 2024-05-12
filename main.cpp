@@ -2,7 +2,7 @@
     !! Created at 30/04/2024 -> Patra Rafles Wostyla Sinaga
 
     Nama file: main.cpp
-    File ini sebagai file utama yang akan dijalankan
+    Deskripsi: Ini adalah program sederhana untuk mengelola barang pada suatu gudang
 */
 
 #include "gudang.hpp"
@@ -24,7 +24,6 @@ int main()
         cout << "4. Tambah data barang." << '\n';
         cout << "5. Delete data barang." << '\n';
         cout << "6. Filter data barang" << '\n';
-        cout << "7. Cari data barang" << '\n';
         cout << "q. Exit." << '\n';
         cout << "Pilihan: ";
 
@@ -49,10 +48,6 @@ int main()
                 break;
             case '6':
                 gudangBarang.filterOption();
-                break;
-            case '7':
-                gudangBarang.searchItem();
-                system("pause");
                 break;
             case 'q': 
                 system("cls");
