@@ -1,5 +1,6 @@
 /*
     !! Created at 30/04/2024 -> Patra Rafles Wostyla Sinaga
+    !! Updateed at 12/05/2024 -> Patra Rafles Wostyla Sinaga
 
     Nama file: dataBarang.hpp
     Ini merupakan header file yang berfungsi untuk menyimpan data barang di dalam array 2d

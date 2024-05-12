@@ -1,5 +1,6 @@
 /*
     !! CREATED AT 30/04/2024 -> Patra Rafles Wostyla Sinaga
+    !! Updateed at 12/05/2024 -> Patra Rafles Wostyla Sinaga
 
     Nama file: gudang.hpp
     Ini merupakan header file yang berfungsi untuk menyimpan metode yang perlukan untuk mengelola barang
