@@ -15,6 +15,8 @@ class Sort : protected DataBarang
         void ascSort();
         void descSort();
         void sortByExp();
+        void filterByExp();
+        void filterByNotExp();
         void swapp(int, int);
         ~Sort() {}
 };
@@ -47,9 +49,27 @@ void Sort::sortByExp()
     {
         int pos = i;
 
-        while (pos > 0 && dataBarang[pos][2] < dataBarang[pos - 1][2])
+        while (pos > 0 && stol(dataBarang[pos][2]) < stol(dataBarang[pos - 1][2]))
             swapp(pos, pos - 1), --pos;
     }
+}
+
+void Sort::filterByExp()
+{
+    int j = 1;
+    
+    cout << "Daftar barang yang telah kadaluarsa:\n";
+    for (int i = 0; i < n; ++i)
+        if (stol(dataBarang[i][2]) < stol(currentTime)) print(i);
+}
+
+void Sort::filterByNotExp()
+{
+    int j = 1;
+    
+    cout << "Daftar barang yang belum kadaluarsa:\n";
+    for (int i = 0; i < n; ++i)
+        if (stol(dataBarang[i][2]) > stol(currentTime)) print(i);
 }
 
 void Sort::swapp(int i, int j)
