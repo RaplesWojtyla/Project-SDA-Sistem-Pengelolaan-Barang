@@ -5,6 +5,7 @@
     Nama file: dataBarang.hpp
     Ini merupakan header file yang berfungsi untuk menyimpan data barang di dalam array 2d
 */
+
 #include <iostream>
 #include <string>
 #include <cstdlib>

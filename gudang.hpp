@@ -333,3 +333,4 @@ void Gudang::display()
 
     for (int i = 0; i < n; ++i) print(i);
 }
+

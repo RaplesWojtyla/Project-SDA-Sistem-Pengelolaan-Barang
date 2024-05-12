@@ -1,6 +1,6 @@
 /*
     !! Created at 30/04/2024 -> Patra Rafles Wostyla Sinaga
-    !! Updateed at 12/05/2024 -> Patra Rafles Wostyla Sinaga
+    !! Updated at 12/05/2024 -> Patra Rafles Wostyla Sinaga
 
     Nama file: main.cpp
     Deskripsi: Ini adalah program sederhana untuk mengelola barang pada suatu gudang
