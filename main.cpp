@@ -21,8 +21,10 @@ int main()
         cout << "\n1. Create data barang." << '\n';
         cout << "2. Show data barang." << '\n';
         cout << "3. Update data barang." << '\n';
-        cout << "4. Delete data barang." << '\n';
-        cout << "5. Filter barang" << '\n';
+        cout << "4. Tambah data barang." << '\n';
+        cout << "5. Delete data barang." << '\n';
+        cout << "6. Filter data barang" << '\n';
+        cout << "7. Cari data barang" << '\n';
         cout << "q. Exit." << '\n';
         cout << "Pilihan: ";
 
@@ -31,7 +33,7 @@ int main()
         switch(c)
         {
             case '1':
-                gudangBarang.addItem();
+                gudangBarang.createItem();
                 break;
             case '2':
                 gudangBarang.displayOption();
@@ -40,8 +42,17 @@ int main()
                 gudangBarang.updateItem();
                 break;
             case '4':
+                gudangBarang.addItem();
                 break;
             case '5':
+                gudangBarang.deleteItem();
+                break;
+            case '6':
+                gudangBarang.filterOption();
+                break;
+            case '7':
+                gudangBarang.searchItem();
+                system("pause");
                 break;
             case 'q': 
                 system("cls");

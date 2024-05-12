@@ -9,16 +9,16 @@
 
 class Gudang : public Sort
 {
-    private:
-        struct tm exp;
-
     public:
-        Gudang() {exp = {0};}
+        Gudang() {}
         void displayOption();
+        void filterOption();
+        void createItem();
         void addItem();
         void updateItem();
         void deleteItem();
-        void tolowerCase(string &);
+        void searchItem();
+        string tolowerCase(string);
         int bSearch(string);
         void display();
         ~Gudang(){};
@@ -69,8 +69,50 @@ void Gudang::displayOption()
     } while (tolower(c) != 'q');
 }
 
-void Gudang::addItem()
+void Gudang::filterOption()
 {
+    char c;
+
+    do
+    {
+        fflush(stdin);
+
+        cout << "\nFilter barang:\n";
+        cout << "1. Telah kadaluarsa." << '\n';
+        cout << "2. Belum kadaluarsa." << '\n';
+        cout << "q. Home" << '\n';
+        cout << "Pilihan: ";
+        
+        cin.get(c);
+
+        switch (c)
+        {
+            case '1':
+                system("cls");
+                filterByExp();
+                break;
+            case '2':
+                system("cls");
+                filterByNotExp();
+                break;
+            case 'q':
+                system("cls");
+                break;
+            default:
+                cout << "Input tidak valid." << '\n';
+                break;
+        }
+    } while (tolower(c) != 'q');
+}
+
+void Gudang::createItem()
+{
+    if (n > 0)
+    {
+        cerr << "Data barang telah ada." << '\n';
+        return;
+    }
+
     cout << "\nBanyak barang yang akan ditambahkan: ";
     cin >> n;
 
@@ -179,27 +221,109 @@ void Gudang::updateItem()
     } while (tolower(c) != 'q');
 }
 
+void Gudang::addItem()
+{
+    int addon;
+    cout << "\nBanyak barang yang ingin ditambahkan: ";
+    cin >> addon;
+
+    if (n + addon > MAX_SIZE) 
+    {
+        cerr << "Maksimum data yang dapat ditambahkan: " << MAX_SIZE << '\n';
+        return;
+    }
+    
+    int day, month, year;
+
+    for (int i = n; i < n + addon; ++i)
+    {
+        cout << "Barang ke-" << i + 1 << ":\n";
+        cout << "\tNama barang: ";
+        cin.ignore();
+        getline(cin, dataBarang[i][0]);
+
+        cout << "\tBanyak barang (pcs): ";
+        cin >> dataBarang[i][1];
+
+        cout << "\tMasukkan tanggal kadaluarsa (DD MM YYYY): ";
+        cin >> day >> month >> year;
+        exp.tm_mday = day;
+        exp.tm_mon = month - 1;
+        exp.tm_year = year - 1900;
+        dataBarang[i][2] = to_string(mktime(&exp));
+    }
+    n += addon;
+}
+
+void Gudang::deleteItem()
+{
+    display();
+
+    char c;
+    int idx;
+
+    cout << "\nMasukkan nomor barang yang akan dihapus: ";
+    cin >> idx;
+
+    print(idx - 1);
+
+    cout << "\nYakin akan menghapus barang tersebut?[y/n] ";
+    cin >> c;
+
+    if (tolower(c) == 'y')
+    {
+        --n;
+        for (int i = idx - 1; i < n; ++i)
+        {
+            dataBarang[i][0] = dataBarang[i + 1][0];
+            dataBarang[i][1] = dataBarang[i + 1][1];
+            dataBarang[i][2] = dataBarang[i + 1][2];
+        }
+    }
+}
+
+void Gudang::searchItem()
+{
+    string itemName;
+    cout << "Masukkan nama barang: ";
+    cin.ignore();
+    getline(cin, itemName);
+
+    int idx = bSearch(tolowerCase(itemName));
+
+    if (idx > -1) print(idx);
+    else cout << "Barang tersebut tidak ditemukan." << '\n';
+}
+
 void Gudang::display()
 {
     system("cls");
     cout << "\nDaftar Barang:\n";
 
-    for (int i = 0; i < n; ++i)
-    {
-        cout << "Barang ke-" << i + 1 << ":\n";
-        cout << "\tNama barang: " << dataBarang[i][0] << '\n';
-        cout << "\tBanyak barang: " << dataBarang[i][1] << '\n';
-
-        char buff[80];
-        time_t t = stol(dataBarang[i][2]);
-        tm *convert = localtime(&t);
-        strftime(buff, 80, "%A, %d %B %Y", convert);
-
-        cout << "\tTanggal kadaluarsa: " << buff << '\n';
-    }
+    for (int i = 0; i < n; ++i) print(i);
 }
 
-void Gudang::tolowerCase(string &str)
+string Gudang::tolowerCase(string str)
 {
-    for (int i = 0; i < str.length(); ++i) str[i] = tolower(str[i]);
+    string ret = "";
+    for (int i = 0; i < str.length(); ++i) ret += tolower(str[i]);
+
+    return ret;
 }
+
+int Gudang::bSearch(string target)
+{
+    ascSort();
+    int l = 0, m, r = n - 1;
+
+    while (l <= r)
+    {
+        m = l + (r - l) / 2;
+
+        if (tolowerCase(dataBarang[m][0]) > target) r = m - 1;
+        else if (tolowerCase(dataBarang[m][0]) < target) l = m + 1;
+        else return m;
+    }
+
+    return -1;
+}   
