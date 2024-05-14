@@ -1,89 +1,117 @@
 /*
     !! Created At 02/05/2024 -> Syuja Aqilsyah
-    !! UPDATED AT 07/05/2024 -> Patra Rafles Wostyla Sinaga
-    !! Updated at 12/05/2024 -> Patra Rafles Wostyla Sinaga
+    !! Updated At 07/05/2024 -> Patra Rafles Wostyla Sinaga
+    !! Updated At 12/05/2024 -> Patra Rafles Wostyla Sinaga
+    !! Updated At 14/05/2024 -> Patra Rafles Wostyla Sinaga
 
     Nama file: sort.hpp
-    Ini merupakan header file yang berisi method untuk mengurutkan data barang
+    Deskripsi: Ini merupakan header file untuk mengurutkan data barang
 */
 
-#include "dataBarang.hpp"
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <windows.h>
+#define MAX_SIZE 100
+using namespace std;
 
-class Sort : protected DataBarang
+class Sort : protected PrintArr
 {
     public:
         Sort() {}
-        void ascSort();
-        void descSort();
-        void sortByExp();
-        void filterByExp();
-        void filterByNotExp();
-        void swapp(int, int);
+        void ascSort(string arr[MAX_SIZE][3], int);
+        void descSort(string arr[MAX_SIZE][3], int);
+        void sortByExp(string arr[MAX_SIZE][3], int);
+        void filterByExp(string arr[MAX_SIZE][3], string, int);
+        void filterByNotExp(string arr[MAX_SIZE][3], string, int);
         ~Sort() {}
 };
 
-void Sort::ascSort()
+void Sort::ascSort(string arr[MAX_SIZE][3], int n)
 {
     for (int i = 1; i < n; ++i)
     {
         int pos = i;
 
-        while (pos > 0 && dataBarang[pos][0] < dataBarang[pos - 1][0])
-            swapp(pos, pos - 1), --pos;
+        while (pos > 0 && arr[pos][0] < arr[pos - 1][0])
+        {
+            string t1 = arr[pos][0];
+            string t2 = arr[pos][1];
+            string t3 = arr[pos][2];
+
+            arr[pos][0] = arr[pos - 1][0];
+            arr[pos][1] = arr[pos - 1][1];
+            arr[pos][2] = arr[pos - 1][2];
+
+            arr[pos - 1][0] = t1;
+            arr[pos - 1][1] = t2;
+            arr[--pos][2] = t3;
+        }
     }
 }
 
-void Sort::descSort()
+void Sort::descSort(string arr[MAX_SIZE][3], int n)
 {
     for (int i = 1; i < n; ++i)
     {
         int pos = i;
 
-        while (pos > 0 && dataBarang[pos][0] > dataBarang[pos - 1][0])
-            swapp(pos, pos - 1), --pos;
+        while (pos > 0 && arr[pos][0] > arr[pos - 1][0])
+        {
+            string t1 = arr[pos][0];
+            string t2 = arr[pos][1];
+            string t3 = arr[pos][2];
+
+            arr[pos][0] = arr[pos - 1][0];
+            arr[pos][1] = arr[pos - 1][1];
+            arr[pos][2] = arr[pos - 1][2];
+
+            arr[pos - 1][0] = t1;
+            arr[pos - 1][1] = t2;
+            arr[--pos][2] = t3;
+        }
     }
 }
 
-void Sort::sortByExp()
+void Sort::sortByExp(string arr[MAX_SIZE][3], int n)
 {
     for (int i = 1; i < n; ++i)
     {
         int pos = i;
 
-        while (pos > 0 && stol(dataBarang[pos][2]) < stol(dataBarang[pos - 1][2]))
-            swapp(pos, pos - 1), --pos;
+        while (pos > 0 && stol(arr[pos][2]) < stol(arr[pos - 1][2]))
+        {
+            string t1 = arr[pos][0];
+            string t2 = arr[pos][1];
+            string t3 = arr[pos][2];
+
+            arr[pos][0] = arr[pos - 1][0];
+            arr[pos][1] = arr[pos - 1][1];
+            arr[pos][2] = arr[pos - 1][2];
+
+            arr[pos - 1][0] = t1;
+            arr[pos - 1][1] = t2;
+            arr[--pos][2] = t3;
+        }
     }
 }
 
-void Sort::filterByExp()
+void Sort::filterByExp(string arr[MAX_SIZE][3], string currentTime, int n)
 {
     int j = 1;
     
     cout << "Daftar barang yang telah kadaluarsa:\n";
     for (int i = 0; i < n; ++i)
-        if (stol(dataBarang[i][2]) < stol(currentTime)) print(i);
+        if (stol(arr[i][2]) < stol(currentTime)) printArr(arr, i);
 }
 
-void Sort::filterByNotExp()
+void Sort::filterByNotExp(string arr[MAX_SIZE][3], string currentTime, int n)
 {
     int j = 1;
-    
+
     cout << "Daftar barang yang belum kadaluarsa:\n";
     for (int i = 0; i < n; ++i)
-        if (stol(dataBarang[i][2]) > stol(currentTime)) print(i);
+        if (stol(arr[i][2]) > stol(currentTime)) printArr(arr, i);
 }
 
-void Sort::swapp(int i, int j)
-{
-    string t1 = dataBarang[i][0];
-    string t2 = dataBarang[i][1];
-    string t3 = dataBarang[i][2];
 
-    dataBarang[i][0] = dataBarang[j][0];
-    dataBarang[i][1] = dataBarang[j][1];
-    dataBarang[i][2] = dataBarang[j][2];
-
-    dataBarang[j][0] = t1;
-    dataBarang[j][1] = t2;
-    dataBarang[j][2] = t3;
-}

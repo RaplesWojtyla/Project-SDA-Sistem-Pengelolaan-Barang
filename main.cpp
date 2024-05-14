@@ -6,58 +6,53 @@
     Deskripsi: Ini adalah program sederhana untuk mengelola barang pada suatu gudang
 */
 
-#include "gudang.hpp"
+#include <windows.h>
+#include "print.hpp"
+#include "sort.hpp"
+#include "create.hpp"
+#include "read.hpp"
+#include "update.hpp"
 
 
 int main()
 {
-    Gudang gudangBarang;
-    char c;
-
-    do
+    while(true)
     {
         system("cls");
-        fflush(stdin);
 
-        cout << "\n1. Create data barang." << '\n';
-        cout << "2. Show data barang." << '\n';
-        cout << "3. Update data barang." << '\n';
-        cout << "4. Tambah data barang." << '\n';
-        cout << "5. Delete data barang." << '\n';
-        cout << "6. Filter data barang" << '\n';
+        Create create;
+        Read read;
+        UpdateFile update;
+        char c;
+
+        cout << "\n1. Create file data barang." << '\n';
+        cout << "2. Read file data barang." << '\n';
+        cout << "3. Update file data barang." << '\n';
         cout << "q. Exit." << '\n';
         cout << "Pilihan: ";
 
-        cin.get(c);
+        cin >> c;
 
         switch(c)
         {
             case '1':
-                gudangBarang.createItem();
+                create.createFile();
                 break;
             case '2':
-                gudangBarang.displayOption();
+                read.readFile();
+                system("pause");
                 break;
             case '3':
-                gudangBarang.updateItem();
+                update.updateOption();
                 break;
-            case '4':
-                gudangBarang.addItem();
-                break;
-            case '5':
-                gudangBarang.deleteItem();
-                break;
-            case '6':
-                gudangBarang.filterOption();
-                break;
-            case 'q': 
+            case 'q':
                 system("cls");
-                break;
-            default: 
+                exit(0);
+            default:
                 cout << "Input tidak valid." << '\n';
                 break;
         }
-    } while (tolower(c) != 'q');
+    }
 
 
     return 0;

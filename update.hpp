@@ -1,131 +1,130 @@
 /*
-    !! Created At 30/04/2024 -> Patra Rafles Wostyla Sinaga
+    !! Created at 30/04/2024 -> Patra Rafles Wostyla Sinaga
     !! Updated At 03/05/2024 -> Ashnel Muhammad
-    !! Updated at 12/05/2024 -> Patra Rafles Wostyla Sinaga
+    !! Updated at 14/05/2024 -> Patra Rafles Wostyla Sinaga
 
-    Nama file: gudang.hpp
-    Ini merupakan header file yang berfungsi untuk menyimpan metode yang perlukan untuk mengelola barang
+    Nama file: update.hpp
+    Deskripsi: Header file untuk melakukan perubahan pada file
 */
 
-#include "sort.hpp"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <ctime>
+#define MAX_SIZE 100
+using namespace std;
 
-class Gudang : public Sort
-{
+class UpdateFile : protected Sort
+{   
+    private:
+        fstream file;
+        struct tm *ct;
+        struct tm exp;
+        time_t currTime;
+        string currentTime;
+        string filename;
+        string dataBarang[MAX_SIZE][3];
+        int n;
+
     public:
-        Gudang() {}
-        void displayOption();
-        void filterOption();
-        void createItem();
+        UpdateFile();
+        void updateOption(); 
         void addItem();
         void updateItem();
         void deleteItem();
+        void updateFile();
         int searchItem(string);
         string tolowerCase(string);
-        void display();
-        ~Gudang(){};
+        ~UpdateFile() {file.close();}
 };
 
-void Gudang::displayOption()
+UpdateFile::UpdateFile() 
 {
-    char c;
-
-    do
-    {
-        fflush(stdin);
-
-        cout << "\nDisplay barang berdasarkan:\n";
-        cout << "1. Default" << '\n';
-        cout << "2. Abjad (asc)." << '\n';
-        cout << "3. Abjad (desc)." << '\n';
-        cout << "4. Tanggal Kadaluarsa." << '\n';
-        cout << "q. Home" << '\n';
-        cout << "Pilihan: ";
-        
-        cin.get(c);
-
-        switch (c)
-        {
-            case '1':
-                display();
-                break;
-            case '2':
-                ascSort();
-                display();
-                break;
-            case '3':
-                descSort();
-                display();
-                break;
-            case '4':
-                sortByExp();
-                display();
-                break;
-            case 'q':
-                system("cls");
-                break;
-            default:
-                cout << "Input tidak valid." << '\n';
-                break;
-        }
-    } while (tolower(c) != 'q');
+    currTime = time(nullptr);
+    ct = localtime(&currTime);
+    currentTime = to_string(mktime(ct));
+    exp = {0};
+    n = 0;
 }
 
-void Gudang::filterOption()
+void UpdateFile::updateOption()
 {
-    char c;
+    cout << "Masukkan nama file: ";
+    cin.ignore();
+    getline(cin, filename);
+    filename += ".txt";
 
-    do
+    file.open(filename, ios::in);
+    if(file.fail())
     {
-        fflush(stdin);
-
-        cout << "\nFilter barang:\n";
-        cout << "1. Telah kadaluarsa." << '\n';
-        cout << "2. Belum kadaluarsa." << '\n';
-        cout << "q. Home" << '\n';
-        cout << "Pilihan: ";
-        
-        cin.get(c);
-
-        switch (c)
-        {
-            case '1':
-                system("cls");
-                filterByExp();
-                break;
-            case '2':
-                system("cls");
-                filterByNotExp();
-                break;
-            case 'q':
-                system("cls");
-                break;
-            default:
-                cout << "Input tidak valid." << '\n';
-                break;
-        }
-    } while (tolower(c) != 'q');
-}
-
-void Gudang::createItem()
-{
-    if (n > 0)
-    {
-        cerr << "Data barang telah ada." << '\n';
+        cout << "Gagal membuka file: " << filename << '\n';
         return;
     }
 
-    cout << "\nBanyak barang yang akan ditambahkan: ";
-    cin >> n;
+    int i = 0;
+    while (!file.eof())
+    {
+        getline(file, dataBarang[i][0], ',');
+        getline(file, dataBarang[i][1], ',');
+        getline(file, dataBarang[i++][2], '\n');
+    }
+    file.close();
+    n = i - 1;
 
-    if (n > MAX_SIZE) 
+    while (true)
+    {
+        system("cls");
+        char c;
+
+        cout << "\nMenu:\n";
+        cout << "1. Tambah data barang." << '\n';
+        cout << "2. Update data barang" << '\n';
+        cout << "3. Hapus data barang." << '\n';
+        cout << "4. Save" << '\n';
+        cout << "q. Home" << '\n';
+        cout << "Pilihan: ";
+        cin >> c;
+
+        switch(c)
+        {
+            case '1':
+                addItem();
+                break;
+            case '2':
+                updateItem();
+                break;
+            case '3':
+                deleteItem();
+                break;
+            case '4':
+                displayAllArr(dataBarang, n);
+                updateFile();
+                system("pause");
+                return;
+            case 'q':
+                return;
+            default:
+                cout << "Input tidak valid." << '\n';
+                break;
+        }
+    }
+}
+
+void UpdateFile::addItem()
+{
+    int addon;
+    cout << "\nBanyak barang yang ingin ditambahkan: ";
+    cin >> addon;
+
+    if (n + addon > MAX_SIZE) 
     {
         cerr << "Maksimum data yang dapat ditambahkan: " << MAX_SIZE << '\n';
         return;
     }
-
+    
     int day, month, year;
 
-    for (int i = 0; i < n; ++i)
+    for (int i = n; i < n + addon; ++i)
     {
         cout << "Barang ke-" << i + 1 << ":\n";
         cout << "\tNama barang: ";
@@ -142,13 +141,13 @@ void Gudang::createItem()
         exp.tm_year = year - 1900;
         dataBarang[i][2] = to_string(mktime(&exp));
     }
+    n += addon;
 }
 
-void Gudang::updateItem()
+void UpdateFile::updateItem()
 {
-    display();
+    displayAllArr(dataBarang, n);
 
-    char c;
     int day, month, year;
     string itemName;
 
@@ -161,13 +160,16 @@ void Gudang::updateItem()
     if (idx == -1)
     {
         cout << "Barang tersebut tidak ditemukan." << '\n';
+        system("pause");
         return;
     }
 
-    do
+    while(true)
     {
         system("cls");
         fflush(stdin);
+
+        char c;
 
         cout << "Pilih nomor yang akan diupdate." << '\n';
         cout << "\t1. Nama barang: " << dataBarang[idx][0] << '\n';
@@ -180,10 +182,10 @@ void Gudang::updateItem()
 
         cout << "\t3. Tanggal kadaluarsa: " << buff << '\n';
         cout << "\t4. Update semua." << '\n';
-        cout << "\tq. Home." << '\n';
+        cout << "\tq. Back." << '\n';
         cout << "Pilihan: ";
 
-        cin.get(c);
+        cin >> c;
 
         switch(c)
         {
@@ -223,51 +225,18 @@ void Gudang::updateItem()
                 break;
             case 'q':
                 system("cls");
-                break;
+                return;
             default:
                 cout << "Input tidak valid." << '\n';
+                system("pause");
                 break;
         }
-    } while (tolower(c) != 'q');
+    }
 }
 
-void Gudang::addItem()
+void UpdateFile::deleteItem()
 {
-    int addon;
-    cout << "\nBanyak barang yang ingin ditambahkan: ";
-    cin >> addon;
-
-    if (n + addon > MAX_SIZE) 
-    {
-        cerr << "Maksimum data yang dapat ditambahkan: " << MAX_SIZE << '\n';
-        return;
-    }
-    
-    int day, month, year;
-
-    for (int i = n; i < n + addon; ++i)
-    {
-        cout << "Barang ke-" << i + 1 << ":\n";
-        cout << "\tNama barang: ";
-        cin.ignore();
-        getline(cin, dataBarang[i][0]);
-
-        cout << "\tBanyak barang (pcs): ";
-        cin >> dataBarang[i][1];
-
-        cout << "\tMasukkan tanggal kadaluarsa (DD MM YYYY): ";
-        cin >> day >> month >> year;
-        exp.tm_mday = day;
-        exp.tm_mon = month - 1;
-        exp.tm_year = year - 1900;
-        dataBarang[i][2] = to_string(mktime(&exp));
-    }
-    n += addon;
-}
-
-void Gudang::deleteItem()
-{
-    display();
+    displayAllArr(dataBarang, n);
 
     char c;
     string itemName;
@@ -281,10 +250,11 @@ void Gudang::deleteItem()
     if (idx == -1)
     {
         cout << "Barang tersebut tidak ditemukan." << '\n';
+        system("pause");
         return;
     }
 
-    print(idx);
+    printArr(dataBarang, idx);
 
     cout << "\nYakin akan menghapus barang tersebut?[y/n] ";
     cin >> c;
@@ -301,36 +271,38 @@ void Gudang::deleteItem()
     }
 }
 
-int Gudang::searchItem(string target)
+void UpdateFile::updateFile()
 {
-    ascSort();
+    file.open(filename, ios::out);
+
+    for(int i = 0; i < n; ++i)
+        file << dataBarang[i][0] << ',' << dataBarang[i][1] << ',' << dataBarang[i][2] << '\n';
+
+    if (file.good()) cout << "\nBerhasil mengupdate file " << filename << '\n';
+    else cout << "\nGagal mengupdate file " << filename << '\n';
+}
+
+int UpdateFile::searchItem(string target)
+{
+    ascSort(dataBarang, n);
     int l = 0, m, r = n - 1;
 
     while (l <= r)
     {
         m = l + (r - l) / 2;
 
-        if (tolowerCase(dataBarang[m][0]) > target) r = m - 1;
-        else if (tolowerCase(dataBarang[m][0]) < target) l = m + 1;
+        if (tolowerCase(dataBarang[m][0]) < target) l = m + 1;
+        else if (tolowerCase(dataBarang[m][0]) > target) r = m - 1;
         else return m;
     }
 
     return -1;
 }
 
-string Gudang::tolowerCase(string str)
+string UpdateFile::tolowerCase(string str)
 {
     string ret = "";
     for (int i = 0; i < str.length(); ++i) ret += tolower(str[i]);
 
     return ret;
-}   
-
-void Gudang::display()
-{
-    system("cls");
-    cout << "\nDaftar Barang:\n";
-
-    for (int i = 0; i < n; ++i) print(i);
 }
-

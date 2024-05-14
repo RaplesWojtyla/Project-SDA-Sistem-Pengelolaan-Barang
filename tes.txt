@@ -1,0 +1,4 @@
+Energen Coklat,111,1728666000
+Energen Vanilla,34,1733072400
+Potato Chips,43,1728666000
+Susu Kental Manis,23,1714842000
