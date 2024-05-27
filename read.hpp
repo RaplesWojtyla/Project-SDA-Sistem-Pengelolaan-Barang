@@ -27,13 +27,9 @@ class Read : protected Sort
 
     public: 
         Read();
-        void option();
         void displayOption();
         void readFile();
-        void addItem();
         void updateItem();
-        int searchItem(string);
-        string tolowerCase(string);
         ~Read() {ifile.close();}
 };
 
@@ -106,7 +102,7 @@ void Read::readFile()
     ifile.open(filename);
     if (ifile.fail())
     {
-        cerr << "Gagal membuka file: " << filename << '\n';
+        cout << "Gagal membuka file: " << filename << '\n';
         return;
     }
 

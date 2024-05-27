@@ -38,7 +38,7 @@ void Create::createFile()
     ofile.open(filename);
     if(ofile.fail())
     {
-        cerr << "Gagal membuka file: " << filename << '\n';
+        cout << "Gagal membuka file: " << filename << '\n';
         return;
     }
 
@@ -68,7 +68,7 @@ void Create::createFile()
         cin >> day >> month >> year;
         exp.tm_mday = day;
         exp.tm_mon = month - 1;
-        exp.tm_year = year - 1900;
+        exp.tm_year = year - 1900; // 2024 - 1900 = 124 
         expDate = to_string(mktime(&exp));
 
         ofile << itemName << ',' << quantity << ',' << expDate << '\n';
