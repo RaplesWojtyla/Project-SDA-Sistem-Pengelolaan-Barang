@@ -34,7 +34,6 @@ class UpdateFile : protected Sort
         void deleteItem();
         void updateFile();
         int searchItem(string);
-        string tolowerCase(string);
         ~UpdateFile() {file.close();}
 };
 
@@ -273,6 +272,12 @@ void UpdateFile::deleteItem()
 
 void UpdateFile::updateFile()
 {
+    char c;
+    cout << "\nSimpan ke dalam file?[y/n] ";
+    cin >> c;
+
+    if (tolower(c) != 'y') return;
+
     file.open(filename, ios::out);
 
     for(int i = 0; i < n; ++i)
@@ -297,12 +302,4 @@ int UpdateFile::searchItem(string target)
     }
 
     return -1;
-}
-
-string UpdateFile::tolowerCase(string str)
-{
-    string ret = "";
-    for (int i = 0; i < str.length(); ++i) ret += tolower(str[i]);
-
-    return ret;
 }

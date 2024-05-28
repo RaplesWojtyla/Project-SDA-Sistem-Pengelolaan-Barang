@@ -24,6 +24,7 @@ class Sort : protected PrintArr
         void sortByExp(string arr[MAX_SIZE][3], int);
         void filterByExp(string arr[MAX_SIZE][3], string, int);
         void filterByNotExp(string arr[MAX_SIZE][3], string, int);
+        string tolowerCase(string);
         ~Sort() {}
 };
 
@@ -33,7 +34,7 @@ void Sort::ascSort(string arr[MAX_SIZE][3], int n)
     {
         int pos = i;
 
-        while (pos > 0 && arr[pos][0] < arr[pos - 1][0])
+        while (pos > 0 && tolowerCase(arr[pos][0]) < tolowerCase(arr[pos - 1][0]))
         {
             string t1 = arr[pos][0];
             string t2 = arr[pos][1];
@@ -56,7 +57,7 @@ void Sort::descSort(string arr[MAX_SIZE][3], int n)
     {
         int pos = i;
 
-        while (pos > 0 && arr[pos][0] > arr[pos - 1][0])
+        while (pos > 0 && tolowerCase(arr[pos][0]) > tolowerCase(arr[pos - 1][0]))
         {
             string t1 = arr[pos][0];
             string t2 = arr[pos][1];
@@ -114,4 +115,10 @@ void Sort::filterByNotExp(string arr[MAX_SIZE][3], string currentTime, int n)
         if (stol(arr[i][2]) > stol(currentTime)) printArr(arr, i);
 }
 
+string Sort::tolowerCase(string str)
+{
+    string ret = "";
+    for (int i = 0; i < str.length(); ++i) ret += tolower(str[i]);
 
+    return ret;
+}

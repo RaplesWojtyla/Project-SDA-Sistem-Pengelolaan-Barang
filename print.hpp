@@ -1,9 +1,7 @@
 /*
-    !! Created at 30/04/2024 -> Patra Rafles Wostyla Sinaga
-    !! Updated At 03/05/2024 -> Ashnel Muhammad
-    !! Updated at 14/05/2024 -> Patra Rafles Wostyla Sinaga
+    !! Created at 14/05/2024 -> Patra Rafles Wostyla Sinaga
 
-    Nama file: update.hpp
+    Nama file: print.hpp
     Deskripsi: Header file untuk menampilkan data ke user
 */
 
