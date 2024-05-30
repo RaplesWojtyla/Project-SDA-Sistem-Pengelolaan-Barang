@@ -22,8 +22,8 @@ class Sort : protected PrintArr
         void ascSort(string arr[MAX_SIZE][3], int);
         void descSort(string arr[MAX_SIZE][3], int);
         void sortByExp(string arr[MAX_SIZE][3], int);
-        void filterByExp(string arr[MAX_SIZE][3], string, int);
-        void filterByNotExp(string arr[MAX_SIZE][3], string, int);
+        void filterByExp(string arr[MAX_SIZE][3], long, int);
+        void filterByNotExp(string arr[MAX_SIZE][3], long, int);
         string tolowerCase(string);
         ~Sort() {}
 };
@@ -97,22 +97,22 @@ void Sort::sortByExp(string arr[MAX_SIZE][3], int n)
     }
 }
 
-void Sort::filterByExp(string arr[MAX_SIZE][3], string currentTime, int n)
+void Sort::filterByExp(string arr[MAX_SIZE][3], long currentTime, int n)
 {
     int j = 1;
     
     cout << "Daftar barang yang telah kadaluarsa:\n";
     for (int i = 0; i < n; ++i)
-        if (stol(arr[i][2]) < stol(currentTime)) printArr(arr, i);
+        if (stol(arr[i][2]) < currentTime) printArr(arr, i);
 }
 
-void Sort::filterByNotExp(string arr[MAX_SIZE][3], string currentTime, int n)
+void Sort::filterByNotExp(string arr[MAX_SIZE][3], long currentTime, int n)
 {
     int j = 1;
 
     cout << "Daftar barang yang belum kadaluarsa:\n";
     for (int i = 0; i < n; ++i)
-        if (stol(arr[i][2]) > stol(currentTime)) printArr(arr, i);
+        if (stol(arr[i][2]) > currentTime) printArr(arr, i);
 }
 
 string Sort::tolowerCase(string str)

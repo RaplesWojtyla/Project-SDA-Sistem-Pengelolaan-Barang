@@ -18,10 +18,9 @@ class UpdateFile : protected Sort
 {   
     private:
         fstream file;
-        struct tm *ct;
         struct tm exp;
         time_t currTime;
-        string currentTime;
+        long currentTime;
         string filename;
         string dataBarang[MAX_SIZE][3];
         int n;
@@ -39,9 +38,8 @@ class UpdateFile : protected Sort
 
 UpdateFile::UpdateFile() 
 {
-    currTime = time(nullptr);
-    ct = localtime(&currTime);
-    currentTime = to_string(mktime(ct));
+    currTime = time(nullptr); // Waktu saat ini
+    currentTime = currTime; // Menyimpan currTime ke dalam variable dengan tipe data long
     exp = {0};
     n = 0;
 }
@@ -97,10 +95,16 @@ void UpdateFile::updateOption()
                 break;
             case '4':
                 displayAllArr(dataBarang, n);
+                char c;
+                cout << "\nSimpan ke dalam file?[y/n] ";
+                cin >> c;
+
+                if (tolower(c) != 'y') break;
                 updateFile();
                 system("pause");
                 return;
             case 'q':
+                system("pause");
                 return;
             default:
                 cout << "Input tidak valid." << '\n';
@@ -272,12 +276,6 @@ void UpdateFile::deleteItem()
 
 void UpdateFile::updateFile()
 {
-    char c;
-    cout << "\nSimpan ke dalam file?[y/n] ";
-    cin >> c;
-
-    if (tolower(c) != 'y') return;
-
     file.open(filename, ios::out);
 
     for(int i = 0; i < n; ++i)

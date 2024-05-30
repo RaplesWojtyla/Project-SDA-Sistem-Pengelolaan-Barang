@@ -17,10 +17,9 @@ class Read : protected Sort
 {
     private:
         ifstream ifile;
-        struct tm *ct;
         struct tm exp;
         time_t currTime;
-        string currentTime;
+        long currentTime;
         string filename;
         string dataBarang[MAX_SIZE][3];
         int n;
@@ -35,9 +34,8 @@ class Read : protected Sort
 
 Read::Read() 
 {
-    currTime = time(nullptr);
-    ct = localtime(&currTime);
-    currentTime = to_string(mktime(ct));
+    currTime = time(nullptr); // Waktu saat ini
+    currentTime = currTime;
     exp = {0};
     n = 0;
 }

@@ -68,12 +68,12 @@ void Create::createFile()
         cin >> day >> month >> year;
         exp.tm_mday = day;
         exp.tm_mon = month - 1;
-        exp.tm_year = year - 1900; // 2024 - 1900 = 124 
+        exp.tm_year = year - 1900; // Epoch Time
         expDate = to_string(mktime(&exp));
 
         ofile << itemName << ',' << quantity << ',' << expDate << '\n';
     }
 
-    if(ofile.good()) cout << "Berhasil menulis data barang" << '\n';
+    if(ofile.good()) cout << "\nBerhasil membuat file data barang" << '\n';
     else cout << "Gagal menulis data barang" << '\n';
 }

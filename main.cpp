@@ -37,6 +37,7 @@ int main()
         {
             case '1':
                 create.createFile();
+                system("pause");
                 break;
             case '2':
                 read.readFile();
